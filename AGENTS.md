@@ -5,7 +5,7 @@ Musician Finder (`musician-finder`) is a location-aware web platform that helps 
 # Build & Test Commands
 - **Dev Server:** `npm run dev`
 - **Build Verification:** `npm run build`
-- **Lint & Type Check:** `npm run lint && npx tsc --noEmit`
+- **Lint & Type Check:** `npm run lint && npx next typegen && npx tsc --noEmit`
 - **Run All Tests:** `npm run test`
 - **Run Single Test File:** `npx jest path/to/file.test.ts`
 - **Run Tests in Watch Mode:** `npx jest --watch`
