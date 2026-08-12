@@ -11,8 +11,6 @@ Musician Finder (`musician-finder`) is a location-aware web platform that helps 
 - **Run Tests in Watch Mode:** `npx jest --watch`
 
 # Code Style Guidelines
-- **UI Boundary (v0 & Figma):** Visual UI shells reside under `components/ui/` (generated/styled via v0/Tailwind). AI agents must treat raw v0 UI files as presentation-only wrappers.
-- **Logic & Data Boundary:** Never write direct database calls or complex state logic inside `components/ui/`. Abstract Supabase queries into Server Actions (`app/actions/`) or custom hooks (`hooks/`).
 - **Server vs. Client Components:** Default to Server Components (`.tsx`). Add `'use client'` only to leaf components requiring interactive React state, browser APIs, or form submission handlers.
 - **Type Safety:** Strict TypeScript everywhere. Database response types must be generated via Supabase CLI and imported from `@/types/supabase`. Do not use `any`.
 - **Design Context (Figma MCP):** Use the Figma MCP server to inspect component tokens, spacing, and layouts directly from design frames.
