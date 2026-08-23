@@ -32,3 +32,5 @@ Musician Finder (`musician-finder`) is a location-aware web platform that helps 
 - **Branch Strategy:** Never commit directly to `main`. Create short-lived feature branches (`feature/profile-search`, `fix/zipcode-filter`).
 - **Commit Format:** Conventional Commits (e.g., `feat: add zipcode distance filter`, `fix: handle empty instrument query`, `test: add unit test for signup action`).
 - **PR Workflow:** Open Pull Requests against `main`. All GitHub Actions CI checks (lint, type-check, unit tests) must pass before merging.
+
+See CONTEXT.md for domain vocabulary.
