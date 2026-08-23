@@ -1,14 +1,9 @@
 import { render, screen } from "@testing-library/react";
-import Home from "./page";
+import { HomeView } from "@/components/HomeView";
 
 describe("Home page", () => {
   it("renders without crashing", () => {
-    render(<Home />);
+    render(<HomeView data={[]} error={null} />);
     expect(screen.getByRole("main")).toBeInTheDocument();
-  });
-
-  it("renders the Next.js logo", () => {
-    render(<Home />);
-    expect(screen.getByAltText("Next.js logo")).toBeInTheDocument();
   });
 });
