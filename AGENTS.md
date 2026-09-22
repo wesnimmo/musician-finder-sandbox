@@ -33,4 +33,13 @@ Musician Finder (`musician-finder`) is a location-aware web platform that helps 
 - **Commit Format:** Conventional Commits (e.g., `feat: add zipcode distance filter`, `fix: handle empty instrument query`, `test: add unit test for signup action`).
 - **PR Workflow:** Open Pull Requests against `main`. All GitHub Actions CI checks (lint, type-check, unit tests) must pass before merging.
 
+## Deployment & Environment
+- **Environment Variables:**
+  - `NEXT_PUBLIC_SUPABASE_URL`: Public project URL (Client & Server).
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Low-privilege public/anon key (Client & Server, governed by RLS).
+  - `SUPABASE_SERVICE_ROLE_KEY`: High-privilege admin key (Server only, bypasses RLS). NEVER expose with `NEXT_PUBLIC_`.
+- **Runtime Targets:**
+  - Production & Preview builds run on Vercel with real credentials configured via Vercel Project Settings.
+  - CI (GitHub Actions) runs in an isolated runner with mocked Supabase clients via Jest (`jest.setup.ts`) and does not receive live keys.
+
 See CONTEXT.md for domain vocabulary.
