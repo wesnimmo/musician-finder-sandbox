@@ -18,7 +18,7 @@ jest.mock("next/headers", () => ({
 describe("searchMusicians", () => {
   it("returns musicians matching the given zip code", async () => {
     server.use(
-      http.get("*/rest/v1/musicians", ({ request }) => {
+      http.get("*/rest/v1/musician_search_cards", ({ request }) => {
         const url = new URL(request.url)
         // Supabase encodes filters as query params: ?zip_code=eq.97201
         expect(url.searchParams.get("zip_code")).toBe("eq.97201")
@@ -27,6 +27,7 @@ describe("searchMusicians", () => {
             id: "11111111-1111-1111-1111-111111111111",
             display_name: "Ada",
             zip_code: "97201",
+            age: 47,
           },
         ])
       }),
@@ -40,7 +41,7 @@ describe("searchMusicians", () => {
 
   it("surfaces an error when Supabase responds with a failure", async () => {
     server.use(
-      http.get("*/rest/v1/musicians", () =>
+      http.get("*/rest/v1/musician_search_cards", () =>
         HttpResponse.json({ message: "boom" }, { status: 500 }),
       ),
     )
