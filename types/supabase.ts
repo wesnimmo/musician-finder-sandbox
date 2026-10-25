@@ -156,6 +156,13 @@ export type Database = {
             foreignKeyName: "band_members_musician_id_fkey"
             columns: ["musician_id"]
             isOneToOne: false
+            referencedRelation: "musician_search_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "band_members_musician_id_fkey"
+            columns: ["musician_id"]
+            isOneToOne: false
             referencedRelation: "musicians"
             referencedColumns: ["id"]
           },
@@ -246,6 +253,13 @@ export type Database = {
             foreignKeyName: "bands_owner_musician_id_fkey"
             columns: ["owner_musician_id"]
             isOneToOne: false
+            referencedRelation: "musician_search_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bands_owner_musician_id_fkey"
+            columns: ["owner_musician_id"]
+            isOneToOne: false
             referencedRelation: "musicians"
             referencedColumns: ["id"]
           },
@@ -288,7 +302,21 @@ export type Database = {
             foreignKeyName: "connections_addressee_id_fkey"
             columns: ["addressee_id"]
             isOneToOne: false
+            referencedRelation: "musician_search_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "connections_addressee_id_fkey"
+            columns: ["addressee_id"]
+            isOneToOne: false
             referencedRelation: "musicians"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "connections_initiator_id_fkey"
+            columns: ["initiator_id"]
+            isOneToOne: false
+            referencedRelation: "musician_search_cards"
             referencedColumns: ["id"]
           },
           {
@@ -376,6 +404,13 @@ export type Database = {
             foreignKeyName: "messages_sender_id_fkey"
             columns: ["sender_id"]
             isOneToOne: false
+            referencedRelation: "musician_search_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "messages_sender_id_fkey"
+            columns: ["sender_id"]
+            isOneToOne: false
             referencedRelation: "musicians"
             referencedColumns: ["id"]
           },
@@ -395,6 +430,13 @@ export type Database = {
           musician_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "musician_availability_musician_id_fkey"
+            columns: ["musician_id"]
+            isOneToOne: false
+            referencedRelation: "musician_search_cards"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "musician_availability_musician_id_fkey"
             columns: ["musician_id"]
@@ -423,6 +465,13 @@ export type Database = {
             columns: ["genre_id"]
             isOneToOne: false
             referencedRelation: "genres"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "musician_genres_musician_id_fkey"
+            columns: ["musician_id"]
+            isOneToOne: false
+            referencedRelation: "musician_search_cards"
             referencedColumns: ["id"]
           },
           {
@@ -458,6 +507,13 @@ export type Database = {
             foreignKeyName: "musician_influences_musician_id_fkey"
             columns: ["musician_id"]
             isOneToOne: false
+            referencedRelation: "musician_search_cards"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "musician_influences_musician_id_fkey"
+            columns: ["musician_id"]
+            isOneToOne: false
             referencedRelation: "musicians"
             referencedColumns: ["id"]
           },
@@ -488,6 +544,13 @@ export type Database = {
             columns: ["instrument_id"]
             isOneToOne: false
             referencedRelation: "instruments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "musician_instruments_musician_id_fkey"
+            columns: ["musician_id"]
+            isOneToOne: false
+            referencedRelation: "musician_search_cards"
             referencedColumns: ["id"]
           },
           {
@@ -595,7 +658,58 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      musician_search_cards: {
+        Row: {
+          age: number | null
+          avatar_url: string | null
+          display_name: string | null
+          id: string | null
+          primary_genre_id: string | null
+          primary_instrument_id: string | null
+          zip_code: string | null
+        }
+        Insert: {
+          age?: never
+          avatar_url?: string | null
+          display_name?: string | null
+          id?: string | null
+          primary_genre_id?: string | null
+          primary_instrument_id?: string | null
+          zip_code?: string | null
+        }
+        Update: {
+          age?: never
+          avatar_url?: string | null
+          display_name?: string | null
+          id?: string | null
+          primary_genre_id?: string | null
+          primary_instrument_id?: string | null
+          zip_code?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "musicians_primary_genre_id_fkey"
+            columns: ["primary_genre_id"]
+            isOneToOne: false
+            referencedRelation: "genres"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "musicians_primary_instrument_id_fkey"
+            columns: ["primary_instrument_id"]
+            isOneToOne: false
+            referencedRelation: "instruments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "musicians_zip_code_fkey"
+            columns: ["zip_code"]
+            isOneToOne: false
+            referencedRelation: "zip_codes"
+            referencedColumns: ["zip"]
+          },
+        ]
+      }
     }
     Functions: {
       [_ in never]: never
@@ -626,12 +740,12 @@ export type Tables<
   DefaultSchemaTableNameOrOptions extends
     | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
         DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -655,11 +769,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -680,11 +794,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends DefaultSchemaTableNameOrOptions extends {
+  TableName extends (DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -705,11 +819,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+  EnumName extends (DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
-    : never = never,
+    : never) = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
@@ -722,11 +836,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+  CompositeTypeName extends (PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
     ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
-    : never = never,
+    : never) = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }

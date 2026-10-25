@@ -81,7 +81,7 @@ _New entities / features:_
 - International (non-US) location search.
 
 _Access policy (auth phase, not schema):_
-- **Anonymous / tiered browsing.** Logged-out visitors could browse public Band (and later Venue) pages and view details like upcoming gigs, but not individual Musician pages (protecting individuals, especially since profiles carry age), and could not message. This is an **authorization concern** enforced via Supabase RLS + route guards — it changes no columns. It also ties into SEO: public Band/Venue pages are indexable, gated Musician pages are not.
+- **Anonymous / tiered browsing.** Logged-out visitors can browse public Band (and later Venue) pages and view details like upcoming gigs. They can also see Musician **search cards**, which show the card fields, including derived age, on purpose. They cannot open a full Musician profile or send messages. The gate protects individuals by restricting the deeper interactions (full profile and contact), not by hiding age. Birthdate itself is never exposed: the card reads from the `musician_search_cards` view, which returns derived age and omits `date_of_birth`. This is an **authorization concern** enforced via Supabase RLS + route guards. It changes no columns. It also ties into SEO: public Band/Venue pages are indexable, gated Musician profile pages are not.
 
 Naming these as deferred is intentional: the v1 model leaves clean room to add them without reshaping the core. Note the deliberate split between **new entities** (schema changes, e.g. Venues) and **access policy** (RLS/route guards, e.g. anonymous browsing) — they are designed in different phases.
 
