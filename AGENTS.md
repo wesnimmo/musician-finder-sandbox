@@ -27,11 +27,14 @@ Musician Finder (`musician-finder`) is a location-aware web platform that helps 
 - **Environment Variables:** All secret keys (`SUPABASE_SERVICE_ROLE_KEY`) must reside in `.env.local` and NEVER be prefixed with `NEXT_PUBLIC_`.
 - **Row-Level Security (RLS):** Every Supabase table must have RLS enabled. Never attempt to bypass RLS in client code.
 - **Protected Files:** Do not read, log, or commit `.env`, `.env.local`, `.env.production`, or private SSH/GPG keys.
+- **Public search:** Reads `musician_search_cards`, never the `musicians` table, using the lobby key. The view returns derived `age` and does not include `date_of_birth`.
+- **Own profile:** A signed-in musician may select and update only the musicians row whose auth_user_id equals auth.uid(). The lobby key still reads musician_search_cards, never musicians.
 
 # Commit & PR Guidelines
 - **Branch Strategy:** Never commit directly to `main`. Create short-lived feature branches (`feature/profile-search`, `fix/zipcode-filter`).
 - **Commit Format:** Conventional Commits (e.g., `feat: add zipcode distance filter`, `fix: handle empty instrument query`, `test: add unit test for signup action`).
 - **PR Workflow:** Open Pull Requests against `main`. All GitHub Actions CI checks (lint, type-check, unit tests) must pass before merging.
+- **Push & PR Ownership:** AI agents should commit locally only. The user handles `git push` and opening/managing Pull Requests themselves — do not push branches or create PRs unless explicitly asked to in the moment.
 
 ## Deployment & Environment
 - **Environment Variables:**
