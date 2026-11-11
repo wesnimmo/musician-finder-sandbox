@@ -29,12 +29,15 @@ Musician Finder (`musician-finder`) is a location-aware web platform that helps 
 - **Protected Files:** Do not read, log, or commit `.env`, `.env.local`, `.env.production`, or private SSH/GPG keys.
 - **Public search:** Reads `musician_search_cards`, never the `musicians` table, using the lobby key. The view returns derived `age` and does not include `date_of_birth`.
 - **Own profile:** A signed-in musician may select and update only the musicians row whose auth_user_id equals auth.uid(). The lobby key still reads musician_search_cards, never musicians.
+- **Signup:** Creating a login also creates the musicians profile, inside the database. The app does not insert into musicians. The profile name starts as "New musician" and is changed by editing that person's own row.
 
 # Commit & PR Guidelines
 - **Branch Strategy:** Never commit directly to `main`. Create short-lived feature branches (`feature/profile-search`, `fix/zipcode-filter`).
 - **Commit Format:** Conventional Commits (e.g., `feat: add zipcode distance filter`, `fix: handle empty instrument query`, `test: add unit test for signup action`).
 - **PR Workflow:** Open Pull Requests against `main`. All GitHub Actions CI checks (lint, type-check, unit tests) must pass before merging.
+- **Merge Method:** Merge PRs with a merge commit (not squash or rebase), so test:/feat: pairs stay visible in history.
 - **Push & PR Ownership:** AI agents should commit locally only. The user handles `git push` and opening/managing Pull Requests themselves — do not push branches or create PRs unless explicitly asked to in the moment.
+
 
 ## Deployment & Environment
 - **Environment Variables:**
