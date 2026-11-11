@@ -29,6 +29,7 @@ Musician Finder (`musician-finder`) is a location-aware web platform that helps 
 - **Protected Files:** Do not read, log, or commit `.env`, `.env.local`, `.env.production`, or private SSH/GPG keys.
 - **Public search:** Reads `musician_search_cards`, never the `musicians` table, using the lobby key. The view returns derived `age` and does not include `date_of_birth`.
 - **Own profile:** A signed-in musician may select and update only the musicians row whose auth_user_id equals auth.uid(). The lobby key still reads musician_search_cards, never musicians.
+- **Signup:** Creating a login also creates the musicians profile, inside the database. The app does not insert into musicians. The profile name starts as "New musician" and is changed by editing that person's own row.
 
 # Commit & PR Guidelines
 - **Branch Strategy:** Never commit directly to `main`. Create short-lived feature branches (`feature/profile-search`, `fix/zipcode-filter`).
